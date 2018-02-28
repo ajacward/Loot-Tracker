@@ -1,0 +1,10 @@
+.gradle/
+.settings/
+bin/
+build/classes
+build/distributions
+build/scripts
+build/tmp
+.classpath
+.project
+

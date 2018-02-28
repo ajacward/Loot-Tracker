@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
   private Stage primaryStage;
-  private VBox welcomeLayout;
 
   public static void main(String[] args) {
     launch(args);
@@ -29,10 +28,10 @@ public class MainApp extends Application {
     try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(MainApp.class.getResource("viewcontroller/WelcomeLayout.fxml"));
-      welcomeLayout = (VBox) loader.load();
+      VBox welcomeLayout = (VBox) loader.load();
 
-      Scene scene = new Scene(welcomeLayout);
-      primaryStage.setScene(scene);
+      Scene welcomeScene = new Scene(welcomeLayout);
+      primaryStage.setScene(welcomeScene);
 
       WelcomeLayoutController controller = loader.getController();
       controller.setMainApp(this);

@@ -2,7 +2,7 @@ package app.viewcontroller;
 
 import app.MainApp;
 
-public class RootLayoutController {
+public class WorkLayoutController {
   private MainApp mainApp;
 
   public void setMainApp(MainApp mainApp) {

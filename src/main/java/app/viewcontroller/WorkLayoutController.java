@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -37,15 +36,6 @@ public class WorkLayoutController {
   private TableColumn<Loot, Number> goldPieceValueColumn;
   @FXML
   private TableColumn<Loot, String> notesColumn;
-
-  @FXML
-  private Label nameLabel;
-  @FXML
-  private Label quanityLabel;
-  @FXML
-  private Label goldPieceValueLabel;
-  @FXML
-  private Label notesLabel;
 
   private MainApp mainApp;
 
@@ -76,6 +66,8 @@ public class WorkLayoutController {
           notesField.getText());
 
       mainApp.getLootData().add(tempLoot);
+
+      clearFields();
     }
   }
 
@@ -98,7 +90,6 @@ public class WorkLayoutController {
       return true;
     }
 
-    // Show the error message.
     Alert alert = new Alert(AlertType.ERROR);
     alert.initOwner(mainApp.getPrimaryStage());
     alert.setTitle("Invalid Fields");
@@ -108,6 +99,14 @@ public class WorkLayoutController {
     alert.showAndWait();
 
     return false;
+  }
+
+  private void clearFields() {
+    typeComboBox.setValue(null);
+    nameField.clear();
+    quantityField.clear();
+    goldPieceField.clear();
+    notesField.clear();
   }
 
 }

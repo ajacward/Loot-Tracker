@@ -7,12 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class WorkLayoutController {
+  @FXML
+  private ComboBox<LootType> typeComboBox;
   @FXML
   private TextField nameField;
   @FXML
@@ -55,6 +58,8 @@ public class WorkLayoutController {
     goldPieceValueColumn
         .setCellValueFactory(cellData -> cellData.getValue().goldPieceValueProperty());
     notesColumn.setCellValueFactory(cellData -> cellData.getValue().notesProperty());
+
+    typeComboBox.getItems().setAll(LootType.values());
   }
 
   public void setMainApp(MainApp mainApp) {
@@ -66,9 +71,9 @@ public class WorkLayoutController {
   @FXML
   private void handleAddLoot() {
     if (isInputValid()) {
-      Loot tempLoot =
-          new Loot(LootType.WEAPON, nameField.getText(), Integer.parseInt(quantityField.getText()),
-              Double.parseDouble(goldPieceField.getText()), notesField.getText());
+      Loot tempLoot = new Loot(typeComboBox.getValue(), nameField.getText(),
+          Integer.parseInt(quantityField.getText()), Double.parseDouble(goldPieceField.getText()),
+          notesField.getText());
 
       mainApp.getLootData().add(tempLoot);
     }
@@ -76,6 +81,10 @@ public class WorkLayoutController {
 
   private boolean isInputValid() {
     String errorMessage = "";
+
+    if (typeComboBox.getValue() == null) {
+      errorMessage += "No valid loot type!\n";
+    }
 
     if (nameField.getText() == null || nameField.getText().length() == 0) {
       errorMessage += "No valid loot name!\n";

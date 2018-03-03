@@ -1,16 +1,23 @@
 package app.viewcontroller;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import app.MainApp;
 import app.model.Loot;
 import app.model.LootType;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class WorkLayoutController {
   @FXML
@@ -23,19 +30,14 @@ public class WorkLayoutController {
   private TextField goldPieceField;
   @FXML
   private TextField notesField;
+
   @FXML
   private Button addButton;
 
   @FXML
-  private TableView<Loot> lootTable;
-  @FXML
-  private TableColumn<Loot, String> nameColumn;
-  @FXML
-  private TableColumn<Loot, Number> quantityColumn;
-  @FXML
-  private TableColumn<Loot, Number> goldPieceValueColumn;
-  @FXML
-  private TableColumn<Loot, String> notesColumn;
+  private VBox tableEntry;
+
+  private Map<LootType, TableView<Loot>> tableMap;
 
   private MainApp mainApp;
 
@@ -43,29 +45,70 @@ public class WorkLayoutController {
 
   @FXML
   public void initialize() {
-    nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-    quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty());
-    goldPieceValueColumn
-        .setCellValueFactory(cellData -> cellData.getValue().goldPieceValueProperty());
-    notesColumn.setCellValueFactory(cellData -> cellData.getValue().notesProperty());
+    tableMap = new HashMap<>();
+    Arrays.stream(LootType.values()).forEach(value -> tableMap.put(value, makeTable(value)));
 
     typeComboBox.getItems().setAll(LootType.values());
+    quantityField.setText("1");
+  }
+
+  private TableView<Loot> makeTable(LootType type) {
+    final VBox vbox = new VBox();
+    vbox.setSpacing(5);
+    vbox.setPadding(new Insets(10, 10, 10, 10));
+
+    final Label label = new Label(type.toString());
+    label.setFont(new Font("Arial", 20));
+
+    TableView<Loot> table = new TableView<>();
+    table.setPlaceholder(new Label(""));
+
+    TableColumn<Loot, String> nameColumn = new TableColumn<>("Name");
+    nameColumn.setResizable(false);
+    nameColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
+    nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+
+    TableColumn<Loot, Number> quantityColumn = new TableColumn<>("Quantity");
+    quantityColumn.setResizable(false);
+    quantityColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+    quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty());
+
+    TableColumn<Loot, Number> goldPieceColumn = new TableColumn<>("Gold Pieces");
+    goldPieceColumn.setResizable(false);
+    goldPieceColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.1));
+    goldPieceColumn.setCellValueFactory(cellData -> cellData.getValue().goldPieceValueProperty());
+
+    TableColumn<Loot, String> notesColumn = new TableColumn<>("Notes");
+    notesColumn.setResizable(false);
+    notesColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.5));
+    notesColumn.setCellValueFactory(cellData -> cellData.getValue().notesProperty());
+
+    table.getColumns().addAll(nameColumn, quantityColumn, goldPieceColumn, notesColumn);
+
+    vbox.getChildren().addAll(label, table);
+
+    tableEntry.getChildren().add(vbox);
+
+    return table;
   }
 
   public void setMainApp(MainApp mainApp) {
     this.mainApp = mainApp;
 
-    lootTable.setItems(mainApp.getLootData());
+    mainApp.getLootData().forEach((key, value) -> {
+      tableMap.get(key).setItems(value);
+    });
   }
 
   @FXML
   private void handleAddLoot() {
     if (isInputValid()) {
       Loot tempLoot = new Loot(typeComboBox.getValue(), nameField.getText(),
-          Integer.parseInt(quantityField.getText()), Double.parseDouble(goldPieceField.getText()),
+          Integer.parseInt(quantityField.getText()),
+          Double.parseDouble(goldPieceField.getText().isEmpty() ? "0" : goldPieceField.getText()),
           notesField.getText());
 
-      mainApp.getLootData().add(tempLoot);
+      mainApp.getLootData().get(typeComboBox.getValue()).add(tempLoot);
 
       clearFields();
     }
@@ -104,7 +147,7 @@ public class WorkLayoutController {
   private void clearFields() {
     typeComboBox.setValue(null);
     nameField.clear();
-    quantityField.clear();
+    quantityField.setText("1");
     goldPieceField.clear();
     notesField.clear();
   }

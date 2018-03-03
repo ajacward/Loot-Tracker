@@ -1,6 +1,9 @@
 package app;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import app.model.Loot;
 import app.model.LootType;
 import app.viewcontroller.WelcomeLayoutController;
@@ -14,16 +17,22 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
   private Stage primaryStage;
-  private ObservableList<Loot> lootData = FXCollections.observableArrayList();
+  private Map<LootType, ObservableList<Loot>> lootData;
 
   public MainApp() {
-    lootData.add(new Loot(LootType.WEAPON, "composite short bow", 1, 30, "strength rating 2"));
-    lootData.add(new Loot(LootType.WEAPON, "longsword", 1, 50, ""));
-    lootData.add(new Loot(LootType.WEAPON, "dagger", 3, 2, "masterwork"));
-    lootData.add(new Loot(LootType.WEAPON, "arrow", 20, 1, ""));
+    lootData = new HashMap<>();
+
+    Arrays.stream(LootType.values())
+        .forEach(value -> lootData.put(value, FXCollections.observableArrayList()));
+
+    lootData.get(LootType.WEAPON)
+        .add(new Loot(LootType.WEAPON, "composite short bow", 1, 30, "strength rating 2"));
+    lootData.get(LootType.WEAPON).add(new Loot(LootType.WEAPON, "longsword", 1, 50, ""));
+    lootData.get(LootType.WEAPON).add(new Loot(LootType.WEAPON, "dagger", 3, 2, "masterwork"));
+    lootData.get(LootType.WEAPON).add(new Loot(LootType.WEAPON, "arrow", 20, 1, ""));
   }
 
-  public ObservableList<Loot> getLootData() {
+  public Map<LootType, ObservableList<Loot>> getLootData() {
     return lootData;
   }
 

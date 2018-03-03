@@ -1,7 +1,7 @@
 package app.model;
 
 public enum LootType {
-  TRADE_GOOD, WEAPON, ARMOR, GEAR, SPECIAL, TOOL, CLOTHING, PROVISION, MOUNT, TRANSPORT, POTION, RING, ROD, SCROLL, STAVE, WAND, WONDROUS, INTELLIGENT, CURSED, ARTIFACT;
+  TRADE_GOOD, WEAPON, ARMOR, GEAR, SPECIAL, TOOL, CLOTHING, PROVISION, MOUNT, TRANSPORT, POTION, RING, ROD, SCROLL, STAVE, WAND, WONDROUS, INTELLIGENT, CURSED, ARTIFACT, STORY_ITEM;
 
   @Override
   public String toString() {
@@ -46,6 +46,8 @@ public enum LootType {
         return "Cursed";
       case ARTIFACT:
         return "Artifact";
+      case STORY_ITEM:
+        return "Story Item";
       default:
         return "Unspecified";
     }

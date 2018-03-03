@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -60,6 +61,8 @@ public class WorkLayoutController {
     final Label label = new Label(type.toString());
     label.setFont(new Font("Arial", 20));
 
+    final ButtonBar buttonBar = new ButtonBar();
+
     TableView<Loot> table = new TableView<>();
     table.setPlaceholder(new Label(""));
 
@@ -85,7 +88,15 @@ public class WorkLayoutController {
 
     table.getColumns().addAll(nameColumn, quantityColumn, goldPieceColumn, notesColumn);
 
-    vbox.getChildren().addAll(label, table);
+    final Button deleteButton = new Button("Delete");
+    deleteButton.setOnAction(e -> {
+      Loot selectedLoot = table.getSelectionModel().getSelectedItem();
+      table.getItems().remove(selectedLoot);
+    });
+
+    buttonBar.getButtons().add(deleteButton);
+
+    vbox.getChildren().addAll(label, buttonBar, table);
 
     tableEntry.getChildren().add(vbox);
 
@@ -112,6 +123,11 @@ public class WorkLayoutController {
 
       clearFields();
     }
+  }
+
+  @FXML
+  private void handleDeleteLoot() {
+
   }
 
   private boolean isInputValid() {

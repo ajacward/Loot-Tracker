@@ -16,6 +16,11 @@ public class Loot {
   private final DoubleProperty goldPieceValue;
   private final StringProperty notes;
 
+  // This is just for JAXB
+  public Loot() {
+    this(null, null, 0, 0, null);
+  }
+
   public Loot(LootType type, String name, int quantity, double goldPieces, String notes) {
     this.type = new SimpleObjectProperty<>(type);
     this.name = new SimpleStringProperty(name);

@@ -1,5 +1,6 @@
 package app.viewcontroller;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 
 public class WorkLayoutController {
   @FXML
@@ -182,6 +184,27 @@ public class WorkLayoutController {
     quantityField.setText("1");
     goldPieceField.clear();
     notesField.clear();
+  }
+
+  @FXML
+  private void handleSaveAs() {
+    FileChooser fileChooser = new FileChooser();
+
+    // Set extension filter
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    // Show save file dialog
+    File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+
+    if (file != null) {
+      // Make sure it has the correct extension
+      if (!file.getPath().endsWith(".xml")) {
+        file = new File(file.getPath() + ".xml");
+      }
+      mainApp.saveLootDataToFile(file);
+    }
   }
 
 }

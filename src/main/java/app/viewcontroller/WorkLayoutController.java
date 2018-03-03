@@ -64,6 +64,7 @@ public class WorkLayoutController {
     final ButtonBar buttonBar = new ButtonBar();
 
     TableView<Loot> table = new TableView<>();
+    table.setMaxHeight(200);
     table.setPlaceholder(new Label(""));
 
     TableColumn<Loot, String> nameColumn = new TableColumn<>("Name");
@@ -88,13 +89,33 @@ public class WorkLayoutController {
 
     table.getColumns().addAll(nameColumn, quantityColumn, goldPieceColumn, notesColumn);
 
+    final Button editButton = new Button("Edit");
+
+    editButton.setOnAction(e -> {
+      Loot selectedLoot = table.getSelectionModel().getSelectedItem();
+
+      if (selectedLoot != null) {
+        // create edit loot popup window
+      } else {
+        // Nothing selected.
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.initOwner(mainApp.getPrimaryStage());
+        alert.setTitle("No Selection");
+        alert.setHeaderText("No Loot Selected");
+        alert.setContentText("Please select a loot in the table.");
+
+        alert.showAndWait();
+      }
+    });
+
     final Button deleteButton = new Button("Delete");
+
     deleteButton.setOnAction(e -> {
       Loot selectedLoot = table.getSelectionModel().getSelectedItem();
       table.getItems().remove(selectedLoot);
     });
 
-    buttonBar.getButtons().add(deleteButton);
+    buttonBar.getButtons().addAll(editButton, deleteButton);
 
     vbox.getChildren().addAll(label, buttonBar, table);
 

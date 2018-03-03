@@ -65,7 +65,7 @@ public class WorkLayoutController {
 
     TableView<Loot> table = new TableView<>();
     table.setMaxHeight(200);
-    table.setPlaceholder(new Label(""));
+    table.setPlaceholder(new Label("No loot"));
 
     TableColumn<Loot, String> nameColumn = new TableColumn<>("Name");
     nameColumn.setResizable(false);
@@ -95,7 +95,7 @@ public class WorkLayoutController {
       Loot selectedLoot = table.getSelectionModel().getSelectedItem();
 
       if (selectedLoot != null) {
-        // create edit loot popup window
+        mainApp.showLootEditDialog(selectedLoot);
       } else {
         // Nothing selected.
         Alert alert = new Alert(AlertType.WARNING);
@@ -144,11 +144,6 @@ public class WorkLayoutController {
 
       clearFields();
     }
-  }
-
-  @FXML
-  private void handleDeleteLoot() {
-
   }
 
   private boolean isInputValid() {

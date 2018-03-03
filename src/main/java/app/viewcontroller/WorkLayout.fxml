@@ -38,7 +38,7 @@
             <TextField fx:id="goldPieceField" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <TextField fx:id="notesField" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <ComboBox fx:id="typeComboBox" prefWidth="150.0" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Button mnemonicParsing="false" onAction="#handleAddLoot" text="Submit" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#handleAddLoot" text="Add" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
          </children>
          <VBox.margin>
             <Insets />

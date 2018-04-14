@@ -3,8 +3,8 @@
 bin/
 build/classes
 build/distributions
+build/resources
 build/scripts
 build/tmp
 .classpath
 .project
-
